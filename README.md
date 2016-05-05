@@ -1,3 +1,3 @@
 # dpexample
 Defer panic client example. 
-It installa dependencies using deferpanic.yml confighuration file.
+It installs dependencies using deferpanic.yml configuration file.
