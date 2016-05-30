@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/deferpanic/deferclient/deferstats"
+	"io/ioutil"
 	"net/http"
 	"time"
 )
@@ -10,6 +11,17 @@ import (
 // fast test
 func fastHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "this request is fast")
+
+	resp, err := http.Get("http://deferpanic.net/")
+	if err != nil {
+		fmt.Fprintf(w, err.Error())
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Fprintf(w, err.Error())
+	}
+	fmt.Fprintf(w, string(body))
 }
 
 // slow test
