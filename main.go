@@ -15,11 +15,13 @@ func fastHandler(w http.ResponseWriter, r *http.Request) {
 	resp, err := http.Get("http://deferpanic.net/")
 	if err != nil {
 		fmt.Fprintf(w, err.Error())
+		return
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Fprintf(w, err.Error())
+		return
 	}
 	if len(body) != 0 {
 		fmt.Fprintf(w, "downloaded")
