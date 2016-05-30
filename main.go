@@ -21,7 +21,9 @@ func fastHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintf(w, err.Error())
 	}
-	fmt.Fprintf(w, string(body))
+	if len(body) != 0 {
+		fmt.Fprintf(w, "downloaded")
+	}
 }
 
 // slow test
