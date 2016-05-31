@@ -50,5 +50,5 @@ func main() {
 	http.HandleFunc("/slow", dps.HTTPHandlerFunc(slowHandler))
 	http.HandleFunc("/panic", dps.HTTPHandlerFunc(panicHandler))
 
-	http.ListenAndServe("10.0.0.2:3000", nil)
+	http.ListenAndServe(":80", nil)
 }
