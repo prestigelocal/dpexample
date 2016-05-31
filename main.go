@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/deferpanic/deferclient/deferstats"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"time"
 )
@@ -41,6 +42,21 @@ func panicHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	resp, err := http.Get("http://deferpanic.com")
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
+	if len(body) != 0 {
+		log.Println(string(body))
+	}
+
 	dps := deferstats.NewClient("z57z3xsEfpqxpr0dSte0auTBItWBYa1c")
 
 	go dps.CaptureStats()
@@ -49,21 +65,6 @@ func main() {
 	http.HandleFunc("/fast", dps.HTTPHandlerFunc(fastHandler))
 	http.HandleFunc("/slow", dps.HTTPHandlerFunc(slowHandler))
 	http.HandleFunc("/panic", dps.HTTPHandlerFunc(panicHandler))
-
-	resp, err := http.Get("http://deferpanic.com")
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	if len(body) != 0 {
-		fmt.Println(string(body))
-	}
 
 	http.ListenAndServe(":3000", nil)
 }
