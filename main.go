@@ -12,7 +12,7 @@ import (
 func fastHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "this request is fast")
 
-	resp, err := http.Get("http://deferpanic.com")
+	resp, err := http.Get("http://test.deferpanic.net")
 	if err != nil {
 		fmt.Fprintf(w, err.Error())
 		return
