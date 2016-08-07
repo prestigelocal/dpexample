@@ -31,7 +31,7 @@ func esPing(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	info, code, err := client.Ping(client).Do()
+	info, code, err := client.Ping("http://212.47.234.190:9200").Do()
 	if err != nil {
 		panic(err)
 	}
