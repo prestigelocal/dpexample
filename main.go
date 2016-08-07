@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"github.com/deferpanic/deferclient/deferstats"
-	"gopkg.in/olivere/elastic.v3"
 )
 
 
@@ -27,15 +26,20 @@ func mlbPing(w http.ResponseWriter, r *http.Request) {
 }
 
 func esPing(w http.ResponseWriter, r *http.Request) {
-	client, err := elastic.NewClient(elastic.SetURL("http://212.47.234.190:9200"))
+	resp, err := http.Get("http://212.47.234.190:9200")
 	if err != nil {
-		panic(err)
+		fmt.Fprintf(w, err.Error())
+		return
 	}
-	info, code, err := client.Ping("http://212.47.234.190:9200").Do()
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		panic(err)
+		fmt.Fprintf(w, err.Error())
+		return
 	}
-	fmt.Printf("Elasticsearch returned with code %d and version %s", code, info.Version.Number)
+	if len(body) != 0 {
+		fmt.Fprintf(w, string(body))
+	}
 }
 
 func main() {
