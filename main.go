@@ -9,6 +9,8 @@ import (
 
 
 func mlbPing(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "mlb")
+
 	resp, err := http.Get("http://gd2.mlb.com/components/game/mlb/year_2016/month_08/day_07/master_scoreboard.json")
 	if err != nil {
 		fmt.Fprintf(w, err.Error())
@@ -23,9 +25,12 @@ func mlbPing(w http.ResponseWriter, r *http.Request) {
 	if len(body) != 0 {
 		fmt.Fprintf(w, string(body))
 	}
+	fmt.Fprintf(w, string(body))
 }
 
 func esPing(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "es")
+
 	resp, err := http.Get("http://212.47.234.190:9200")
 	if err != nil {
 		fmt.Fprintf(w, err.Error())
