@@ -250,10 +250,14 @@ func mlbPing(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if len(body) != 0 {
-		fmt.Fprintf(w, string(body))
+		s, err := fooJson([]byte(body))
+		fmt.Fprintf("First game time: ", s.Data.Games.Game[0].HomeTime)
+		if err != nil {
+			fmt.Fprintf(w, err.Error())
+			return
+		}
 	}
-	s, err := fooJson([]byte(body))
-	fmt.Fprintf(w, s.Data.Games.Day)
+
 }
 
 func main() {
